@@ -269,10 +269,11 @@ class ControllerCommonSeoPro extends Controller {
 		} else {
 			$seo_url .= '/';
 		}
-		$seo_url = trim($seo_url, '//');
-		if($route == 'common/home') {
-			$seo_url .= '/';
-		}
+
+        if(substr($seo_url, -2) == '//') {
+            $seo_url = substr($seo_url, 0, -1);
+        }
+
 
 		if (count($data)) {
 			$seo_url .= '?' . urldecode(http_build_query($data, '', '&amp;'));
