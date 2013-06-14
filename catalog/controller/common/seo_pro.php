@@ -58,7 +58,9 @@ class ControllerCommonSeoPro extends Controller {
 			$this->session->data['language'] = $code;
 		}
 
-		if(!isset($this->request->cookie['language']) || $this->request->cookie['language'] != $code) {
+		if((!isset($this->request->server['HTTP_X_REQUESTED_WITH']) || strtolower($this->request->server['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') &&
+		    strpos($this->request->server['HTTP_ACCEPT'], 'image') === FALSE ) {
+
 			setcookie('language', $code, time() + 60 * 60 * 24 * 30, '/', $this->request->server['HTTP_HOST']);
 		}
 
