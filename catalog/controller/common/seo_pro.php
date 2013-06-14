@@ -46,7 +46,14 @@ class ControllerCommonSeoPro extends Controller {
 			}
 		}
 
-
+		if ($code == $this->config_language && 
+					isset($this->request->cookie['language']) &&
+						$this->request->cookie['language'] != $code &&
+							isset($this->request->server['HTTP_X_REQUESTED_WITH']) && 
+								strtolower($this->request->server['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+				$code = $this->request->cookie['language'];
+		}
+		
 		if(!isset($this->session->data['language']) || $this->session->data['language'] != $code) {
 			$this->session->data['language'] = $code;
 		}
