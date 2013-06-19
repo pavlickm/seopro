@@ -58,11 +58,15 @@ class ControllerCommonSeoPro extends Controller {
 			$this->session->data['language'] = $code;
 		}
 
-		if((!isset($this->request->server['HTTP_X_REQUESTED_WITH']) || strtolower($this->request->server['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') &&
-		    strpos($this->request->server['HTTP_ACCEPT'], 'image') === FALSE ) {
+	
+        $xhttprequested = isset($this->request->server['HTTP_X_REQUESTED_WITH']) && $this->request->server['HTTP_X_REQUESTED_WITH'] == 'xmlhttprequest';
 
-			setcookie('language', $code, time() + 60 * 60 * 24 * 30, '/', $this->request->server['HTTP_HOST']);
-		}
+        $captcha = isset($this->request->get['route']) && $this->request->get['route']=='product/product/captcha';
+
+        if(!$xhttprequested && !$captcha) {
+            setcookie('language', $code, time() + 60 * 60 * 24 * 30, '/', $this->request->server['HTTP_HOST']);
+        }
+
 
 		$this->config->set('config_language_id', $this->languages[$code]['language_id']);
 		$this->config->set('config_language', $this->languages[$code]['code']);
